@@ -1,4 +1,3 @@
-
 ## 💡 Task management Dashboard
 
 This is a **Dashboard Application** that supports:
@@ -69,6 +68,36 @@ This is a **Dashboard Application** that supports:
 | Method | Endpoint      | Description               |
 |--------|---------------|---------------------------|
 | GET    | `/api/stats`  | Get user/task counts      |
+
+---
+
+## 🚀 Running the Application
+
+### Installation
+
+Install all dependencies for the frontend, backend, and root project:
+
+```bash
+npm run install-all
+```
+
+### Development
+
+Run both frontend and backend simultaneously with a single command:
+
+```bash
+npm run dev
+```
+
+You can also run each part individually:
+
+```bash
+# Run only the frontend
+npm run frontend
+
+# Run only the backend
+npm run backend
+```
 
 ---
 
