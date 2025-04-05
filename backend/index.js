@@ -5,6 +5,7 @@ require('dotenv').config();
 const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(errorHandler);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/health', (req, res) => {
     res.send('ping');
