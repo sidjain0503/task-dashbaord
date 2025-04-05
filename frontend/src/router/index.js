@@ -4,7 +4,7 @@ import { useAuthStore } from '../stores/authStore'
 // Pages
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
-// import Dashboard from '../pages/Dashboard.vue'
+import Dashboard from '../pages/Dashboard.vue'
 // import AdminPanel from '../pages/AdminPanel.vue'
 import NotFound from '../pages/NotFound.vue'
 
@@ -18,7 +18,7 @@ const routes = [
 //   // Protected
   {
     path: '/dashboard',
-    component: NotFound,
+    component: Dashboard,
     meta: { requiresAuth: true }
   },
 //   {
