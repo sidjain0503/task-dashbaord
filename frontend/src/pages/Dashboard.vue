@@ -3,7 +3,7 @@
     <Sidebar />
     <div class="flex-1 mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Task Dashboard</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Welcome, {{ auth.user.name }}</h1>
         <p class="text-gray-600 mt-2">Manage and track your tasks efficiently</p>
       </div>
       
@@ -39,9 +39,11 @@ import Viewnav from '../components/viewnav/Viewnav.vue'
 import ListView from '../components/tasks/taskview/ListView.vue'
 import useViewStore from '../stores/viewStore'
 import useTasksStore from '../stores/tasksStore'
+import { useAuthStore } from '../stores/authStore'
 
 const tasksStore = useTasksStore()
 const view = useViewStore()
+const auth = useAuthStore()
 
 const tasks = computed(() => tasksStore.tasks)
 const currentView = computed(() => view.currentView)

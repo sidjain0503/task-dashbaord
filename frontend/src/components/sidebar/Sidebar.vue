@@ -14,35 +14,17 @@
             Dashboard
           </router-link>
           
-          <router-link to="/tasks" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-white hover:bg-gray-700">
+          <router-link to="/admin" v-if="auth.isAdmin" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-white hover:bg-gray-700">
             <svg class="mr-3 h-6 w-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            Tasks
-          </router-link>
-          
-          <router-link to="/profile" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-white hover:bg-gray-700">
-            <svg class="mr-3 h-6 w-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Profile
+            Admin
           </router-link>
         </nav>
       </div>
-      <div class="flex-shrink-0 flex border-t border-gray-700 p-4">
-        <button @click="logout" class="flex-shrink-0 group block w-full">
-          <div class="flex items-center">
-            <div>
-              <svg class="h-8 w-8 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <p class="text-sm font-medium text-white">Logout</p>
-            </div>
-          </div>
-        </button>
-      </div>
+
+       <Logout />     
+       
     </div>
 
     <!-- Mobile menu -->
@@ -57,8 +39,8 @@
             </div>
             <DisclosureButton class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
               <span class="sr-only">Open main menu</span>
-              <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-              <XIcon v-else class="block h-6 w-6" aria-hidden="true" />
+              <!-- <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" /> -->
+              <!-- <XIcon v-else class="block h-6 w-6" aria-hidden="true" /> -->
             </DisclosureButton>
           </div>
         </div>
@@ -86,3 +68,21 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../../stores/authStore'
+import Logout from './Logout.vue'
+const router = useRouter()
+
+const auth = useAuthStore()
+
+ const logout = () => {
+    auth.logout()
+    router.push('/login')
+ }
+
+</script>
