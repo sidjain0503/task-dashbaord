@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const db = require('../models/db');
 const { generateToken } = require('../utils/jwt');
-
+const logger = require('../utils/logger');
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -18,6 +18,7 @@ const register = async (req, res) => {
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
+    logger.error("Error registering user: ", err);
   }
 };
 
@@ -47,7 +48,25 @@ const login = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
+    logger.error("Error logging in: ", err);
   }
 };
 
-module.exports = { register, login };
+const fetchProfile = async (req, res) => {
+  const { id } = req.user;
+  
+  try {
+    const [users] = await db.query('SELECT id, name, email, role, is_active FROM users WHERE id = ?', [id]);
+    
+    if (!users.length) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    res.json(users[0]);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+    logger.error("Error fetching profile: ", err);
+  }
+};
+
+module.exports = { register, login, fetchProfile };
