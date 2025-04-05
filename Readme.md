@@ -77,8 +77,18 @@ This is a **Dashboard Application** that supports:
 ```
 /fullstack-dashboard/
 │
-├── /frontend/      → Vue 3 + Vite + Tailwind + Pinia
-│   └── ...
+/frontend
+├── /src
+│   ├── /assets
+│   ├── /components
+│   ├── /pages
+│   ├── /router
+│   │    └── index.js
+│   ├── /stores
+│   │    └── auth.js
+│   ├── /services
+│   │    └── api.js
+│   └── App.vue
 │
 ├── /backend/       → Node.js + Express + MySQL
 │   ├── /controllers
