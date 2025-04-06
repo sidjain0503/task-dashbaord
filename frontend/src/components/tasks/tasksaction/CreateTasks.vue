@@ -155,4 +155,5 @@ const createTask = async () => {
 }
 
 const emit = defineEmits(['taskCreated'])
+
 </script>

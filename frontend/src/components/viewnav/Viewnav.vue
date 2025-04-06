@@ -29,13 +29,16 @@
       
      
     </div>
-    <CreateTasks @taskCreated="fetchTasks" />
+    <CreateTasks @taskCreated="tasksStore.fetchTasks"  />
   </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
 import CreateTasks from '../tasks/tasksaction/CreateTasks.vue'
+import useTasksStore from '../../stores/tasksStore'
+
+const tasksStore = useTasksStore()
 
 defineProps({
   currentView: String,

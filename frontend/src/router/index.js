@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/authStore'
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import Dashboard from '../pages/Dashboard.vue'
-// import AdminPanel from '../pages/AdminPanel.vue'
+import Admin from '../pages/Admin.vue'
 import NotFound from '../pages/NotFound.vue'
 
 const routes = [
@@ -21,11 +21,11 @@ const routes = [
     component: Dashboard,
     meta: { requiresAuth: true }
   },
-//   {
-//     path: '/admin',
-//     component: AdminPanel,
-//     meta: { requiresAuth: true, adminOnly: true }
-//   },
+  {
+    path: '/admin',
+    component: Admin,
+    meta: { requiresAuth: true, adminOnly: true }
+  },
 
 //   // 404
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }

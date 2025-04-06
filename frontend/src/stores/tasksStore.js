@@ -1,52 +1,63 @@
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import api from '../services/apiService'
 
-export const useTasksStore = defineStore('tasks', {
-  state: () => ({
-    tasks: [],
-    loading: false,
-    error: null
-  }),
-  actions: {
-    async fetchTasks() {
-      this.loading = true
-      try {
-        const response = await api.get('/tasks')
-        this.tasks = response.data
-      } catch (error) {
-        this.error = error.message
-      } finally {
-        this.loading = false
-      }
-    },
-    async createTask(task) {
-      try {
-        const response = await api.post('/tasks', task)
-        this.tasks.push(response.data)
-      } catch (error) {
-        this.error = error.message
-      }
-    },
-    async updateTask(id, task) {
-      try {
-        const response = await api.put(`/tasks/${id}`, task)
-        const index = this.tasks.findIndex(t => t.id === id)
-        if (index !== -1) {
-          this.tasks[index] = response.data
-        }
-      } catch (error) {
-        this.error = error.message
-      }
-    },
-    async deleteTask(id) {
-      try {
-        await api.delete(`/tasks/${id}`)
-        this.tasks = this.tasks.filter(t => t.id !== id)
-      } catch (error) {
-        this.error = error.message
-      }
+const useTasksStore = defineStore('tasks', () => {
+  const tasks = ref([])
+  
+  const fetchTasks = async () => {
+    try {
+      const response = await api.get('/tasks')
+      tasks.value = response.data
+    } catch (error) {
+      console.error('Error fetching tasks:', error)
     }
   }
+  
+  const updateTask = async (id, updatedTask) => {
+    try {
+      await api.put(`/tasks/${id}`, updatedTask)
+      
+      // Update the local state with the provided updatedTask directly
+      const index = tasks.value.findIndex(task => task.id === id)
+      if (index !== -1) {
+        // Create a new object to ensure reactivity
+        tasks.value[index] = { ...updatedTask }
+        
+        // Create a new array to ensure the reactive trigger
+        tasks.value = [...tasks.value]
+      }
+      
+      // No need to return the response.data as we're using the updatedTask
+      return updatedTask
+    } catch (error) {
+      console.error('Error updating task:', error)
+      throw error
+    }
+  }
+
+  const deleteTask = async (id) => {
+    try {
+      await api.delete(`/tasks/${id}`)
+      // Immediately update the local state
+      tasks.value = tasks.value.filter(task => task.id !== id)
+    } catch (error) {
+      console.error('Error deleting task:', error)
+      throw error
+    }
+  }
+
+  const createTask = async (task) => {
+    try {
+      const response = await api.post('/tasks', task)
+      tasks.value.push(response.data)
+    } catch (error) {
+      console.error('Error creating task:', error)
+      throw error
+    }
+  }
+
+  return { tasks, fetchTasks, updateTask, deleteTask, createTask }
 })
 
 export default useTasksStore

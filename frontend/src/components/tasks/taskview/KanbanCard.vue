@@ -143,10 +143,12 @@ const formatDate = (dateString) => {
   });
 };
 
+
 const updateTaskStatus = async (newStatus) => {
   try {
     await tasksStore.updateTask(props.task.id, { ...props.task, status: newStatus });
     emit('taskUpdated');
+    
   } catch (error) {
     console.error('Error updating task status:', error);
   }
